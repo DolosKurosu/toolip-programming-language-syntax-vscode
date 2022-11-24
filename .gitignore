@@ -1,0 +1,5 @@
+.vscode/**
+*.out
+.vscodeignore
+.vscode-test/**
+vsc-extension-quickstart.md

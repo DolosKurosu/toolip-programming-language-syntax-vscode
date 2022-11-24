@@ -1,0 +1,196 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#characters"
+		},
+		{
+			"include": "#controls"
+		},
+		{
+			"include": "#switches"
+		},
+		{
+			"include": "#scopes"
+		},
+		{
+			"include": "#typings"
+		},
+		{
+			"include": "#imports"
+		},
+		{
+			"include": "#operators"
+		},
+		{
+			"include": "#built_ins"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#booleans"
+		},
+		{
+			"include": "#numbers"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"include": "#inline_comments"
+				},
+				{
+					"include": "#block_comments"
+				}
+			]
+		},
+		"inline_comments": {
+			"begin": "~~",
+			"end": "\\n",
+			"name": "comment.line.double-dash.tool"
+		},
+		"block_comments": {
+			"begin": "~\\[",
+			"end": "\\]~",
+			"name": "comment.block.tool"
+		},
+		"strings": {
+			"name": "string.quoted.double.tool",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.tool",
+					"match": "\\\\."
+				}
+			]
+		},
+		"characters": {
+			"begin": "'",
+			"end": "'",
+			"name": "string.quoted.single",
+			"patterns": [
+				{
+					"name": "constant.character.escape.tool",
+					"match": "\\\\."
+				}
+			]
+		},
+		"controls": {
+			"patterns": [
+				{
+					"name": "keyword.control.tool",
+					"match": "\\b(if|while|for|return|func|struct|else|elif|break|then|end|case|from|in|as|and|or|do)\\b"
+				}
+			]
+		},
+		"switches": {
+			"name": "keyword.control.switch.tool",
+			"match": "\\b(switch)\\b"
+		},
+		"scopes": {
+			"name": "keyword.scopes.tool",
+			"match": "\\b(local|const)\\b"
+		},
+		"typings": {
+			"name": "keyword.typings.tool",
+			"match": "(\\b|\\s|\\()(void|char|string|table|int|float|double|long|bool)(\\b|\\s|\\))"
+		},
+		"imports": {
+			"name": "keyword.imports",
+			"match": "\\b(import)\\b"
+		},
+		"operators": {
+			"name": "keyword.operator.tool",
+			"match": "(\\+|-|\\*|\\/|%|\\/\\/|\\?\\?|\\.\\.|<|>|<<|>>|is|=|\\||&)"
+		},
+		"built_ins": {
+			"patterns": [
+				{
+					"match": "(?<![^.]\\.|:)(\\b|\\(|\\)|\\s)(assert|collectgarbage|dofile|error|load|loadfile|loadstring|pairs|pcall|print|select|setmetatablele|tonumber|tostring|type)(\\b|\\(|\\)|\\s)(?!\\s*=(?!=))",
+					"name": "support.function.tool"
+				},
+				{
+					"match": "(?<![^.]\\.|:)(\\b|\\(|\\)|\\s)(string\\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|pack|packsize|rep|reverse|sub|unpack|upper)|tablele\\.(concat|insert|maxn|move|pack|remove|sort|unpack)|math\\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?|tointeger|type)|io\\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|bit32\\.(arshift|band|bnot|bor|btest|bxor|extract|replace|lrotate|lshift|rrotate|rshift)|utf8\\.(char|codes|codepoint|len|offset))(\\b|\\(|\\)|\\s)(?!\\s*=(?!=))",
+					"name": "support.function.library.tool"
+				},
+				{
+					"match": "(\\b|\\(|\\))([a-zA-Z_][a-zA-Z0-9_]*)(\\b|\\(|\\))(?=\\s*(?:[({\"']|\\[\\[))",
+					"name": "support.function.any-method.tool"
+				}
+			]
+		},
+		"variables": {
+			"name": "variable.other.tool",
+			"match": "(\\b|\\(|\\))([a-zA-Z_][a-zA-Z0-9_]*)(\\b|\\(|\\))"
+		},
+		"functions": {
+			"name": "meta.function.tool",
+			"patterns": [
+				{
+					"begin": "(\\()",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.parameters.begin.tool"
+						}
+					},
+					"end": "(\\))|(?=[\\-\\.{}\\[\\]\"'])",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.parameters.finish.tool"
+						}
+					},
+					"name": "meta.parameter.tool",
+					"patterns": [
+						{
+							"match": "[a-zA-Z_][a-zA-Z0-9_]*",
+							"name": "variable.parameter.function.tool"
+						},
+						{
+							"match": ",",
+							"name": "punctuation.separator.arguments.tool"
+						},
+						{
+							"begin": ".",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.separator.arguments.tool"
+								}
+							},
+							"end": "(?=[\\),])"
+						}
+					]
+				},
+				{
+					"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b\\s*(?=\\.)",
+					"name": "entity.name.struct.tool"
+				},
+				{
+					"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+					"name": "entity.name.function.tool"
+				}
+			]
+		},
+		"booleans": {
+			"match": "\\b(true|false|nil)\\b",
+			"name": "constant.language.tool"
+		},
+		"numbers": {
+			"name": "constant.numeric",
+			"match": "\\b[0-9]+[.]?[0-9]*\\b"
+		}
+	},
+	"scopeName": "source.tool"
+}
